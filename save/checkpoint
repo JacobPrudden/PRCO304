@@ -1,2 +1,2 @@
-model_checkpoint_path: "Network"
-all_model_checkpoint_paths: "Network"
+model_checkpoint_path: "NetworkPlayer"
+all_model_checkpoint_paths: "NetworkPlayer"

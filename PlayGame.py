@@ -19,7 +19,6 @@ player = 1
  # the function called when the player makes a move
 def Move(x,y,player):
     global board
-    initPlayer = player
     #if the move is legal
     if(Functions.TryMove(board, y, x, player)==1):
         #update the board
@@ -27,16 +26,14 @@ def Move(x,y,player):
         #update the player
         player = Functions.nextPlayer(board,player)
         #if it's the opponents turn allow them to make a move
-        if(initPlayer!=player):
-            UpdateBoard()
-            cont.set(1)
-            time.sleep(0.25)
+        UpdateBoard(player)
+        cont.set(1)
+        time.sleep(0.25)
             
-def UpdateBoard():
+def UpdateBoard(player):
     global board
     #converts the board numbers into colours
     colourBoard = Functions.BoardtoColour(board)
-    
     #makes a button for each board tile
     window.button00 = tkinter.Button(window,height=1,width=1,command = lambda:Move(0,0,player),bg = colourBoard[0][0])
     window.button01 = tkinter.Button(window,height=1,width=1,command = lambda:Move(0,1,player),bg = colourBoard[0][1])
@@ -182,7 +179,35 @@ def PlayGame(opponent):
     global board
     board = Functions.BoardInit()
     player = 1
-        
+    UpdateBoard(player)
+    if(opponent == "Human"):
+            
+        player = randint(1,2)
+        movesAvailable = 1
+        gamePlaying = 1
+        while gamePlaying != 0:
+            
+            if(Functions.GameOver(board)==1):
+                gamePlaying = 0
+                score = Functions.BlackWhiteCount(board)
+                if(score>0):
+                    winner = 1
+                elif(score<0):
+                    winner = 2
+                else:
+                    winner = 0
+                if(winner!=0):
+                    print("Game Over! The winner is player ",winner)
+                else:
+                    print("It's a tie!")
+                    
+                board = Functions.BoardInit()
+            
+            cont.set(0)
+            window.wait_variable(cont)
+            player = Functions.nextPlayer(board,player)
+            
+            time.sleep(0.25)
     if(opponent == "Rand"):
         while Functions.GameOver(board)==0:
             
@@ -190,12 +215,23 @@ def PlayGame(opponent):
             movesAvailable = 1
             gamePlaying = 1
             while gamePlaying != 0:
-                UpdateBoard()
+                UpdateBoard(player)
                     
                 if(Functions.GameOver(board)==1):
-                    gamePlaying = 0
-                    board = Functions.BoardInit()
-                    print("Game Over! The winner is ",Functions.Winner(board))
+                        gamePlaying = 0
+                        score = Functions.BlackWhiteCount(board)
+                        if(score>0):
+                            winner = 1
+                        elif(score<0):
+                            winner = 2
+                        else:
+                            winner = 0
+                        if(winner!=0):
+                            print("Game Over! The winner is player ",winner)
+                        else:
+                            print("It's a tie!")
+                        
+                        board = Functions.BoardInit()
                 movesAvailable = Functions.MovesAvailable(board, player)
                 
                 cont.set(0)
@@ -204,7 +240,6 @@ def PlayGame(opponent):
                 player = Functions.nextPlayer(board,player)
                 
                 
-                UpdateBoard()
                 time.sleep(0.25)
                 while(player == 2):
                     movesAvailable = Functions.MovesAvailable(board, player)
@@ -223,16 +258,27 @@ def PlayGame(opponent):
         while Functions.GameOver(board)==0:
             
             player = randint(1,2)
-            UpdateBoard();
+            UpdateBoard(player);
             movesAvailable = 1
             gamePlaying = 1
             while gamePlaying != 0:
-                UpdateBoard()
+                UpdateBoard(player)
                     
                 if(Functions.GameOver(board)==1):
-                    gamePlaying = 0
-                    board = Functions.BoardInit()
-                    print("Game Over! The winner is ",Functions.Winner(board))
+                        gamePlaying = 0
+                        score = Functions.BlackWhiteCount(board)
+                        if(score>0):
+                            winner = 1
+                        elif(score<0):
+                            winner = 2
+                        else:
+                            winner = 0
+                        if(winner!=0):
+                            print("Game Over! The winner is player ",winner)
+                        else:
+                            print("It's a tie!")
+                        
+                        board = Functions.BoardInit()
                 movesAvailable = Functions.MovesAvailable(board, player)
                 
                 cont.set(0)
@@ -241,7 +287,6 @@ def PlayGame(opponent):
                 player = Functions.nextPlayer(board,player)
                 
                 
-                UpdateBoard()
                 time.sleep(0.25)
                 while(player == 2):
                         nextX = 0
@@ -273,7 +318,7 @@ def PlayGame(opponent):
                         player = Functions.nextPlayer(board,player)
     elif(opponent == "Network"):
         ops.reset_default_graph() 
-        numInp = 64 # the number of inputs for the neural network
+        numInp = 65 # the number of inputs for the neural network
         numLabel = 1 # the number of inputs for the labels
         
         # Create Placeholders for input and label
@@ -303,16 +348,27 @@ def PlayGame(opponent):
                 
                 board = Functions.BoardInit()
                 player = randint(1,2)
-                UpdateBoard();
+                UpdateBoard(player);
                 movesAvailable = 1
                 gamePlaying = 1
                 while gamePlaying != 0:
-                    UpdateBoard()
+                    UpdateBoard(player)
                         
                     if(Functions.GameOver(board)==1):
                         gamePlaying = 0
+                        score = Functions.BlackWhiteCount(board)
+                        if(score>0):
+                            winner = 1
+                        elif(score<0):
+                            winner = 2
+                        else:
+                            winner = 0
+                        if(winner!=0):
+                            print("Game Over! The winner is player ",winner)
+                        else:
+                            print("It's a tie!")
+                        
                         board = Functions.BoardInit()
-                        print("Game Over! The winner is ",Functions.Winner(board))
                     movesAvailable = Functions.MovesAvailable(board, player)
                     
                     
@@ -322,7 +378,6 @@ def PlayGame(opponent):
                     player = Functions.nextPlayer(board,player)
                     
                     
-                    UpdateBoard()
                     time.sleep(0.25)
                     while(player == 2):
                         nextX = 0
@@ -359,18 +414,21 @@ window = tkinter.Tk()
 window.buttonNetwork = tkinter.Button(window,text = "Network",command = lambda:PlayGame("Network"))
 window.buttonNetwork.grid(row = 1)
 
+window.buttonHuman = tkinter.Button(window,text = "Human",command = lambda:PlayGame("Human"))
+window.buttonHuman.grid(row = 2)
+
 window.buttonMinMax = tkinter.Button(window,text = "MinMax",command = lambda:PlayGame("MinMax"))
 window.buttonMinMax.grid(row = 3)
 
 window.buttonRand = tkinter.Button(window,text="Random Game",command=lambda:PlayGame("Rand"))
 window.buttonRand.grid(row = 5)
 
-window.buttonTrain = tkinter.Button(window,text = "Train Network",command = lambda:Training.training("Network",1000))
+window.buttonTrain = tkinter.Button(window,text = "Train Network",command = lambda:Training.training("Network",100000))
 window.buttonTrain.grid(row = 7)
 
 window.buttonEnd = tkinter.Button(window,text = "Exit",command = window.destroy)
 window.buttonEnd.grid(row = 8)
-UpdateBoard()
+UpdateBoard(player)
 
 cont = tkinter.IntVar()
 window.mainloop()

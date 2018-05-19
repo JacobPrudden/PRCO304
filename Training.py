@@ -15,7 +15,7 @@ def training(opponent,games):
     
     ops.reset_default_graph() 
     lr = 0.0001 # the learning rate
-    numInp = 64 # the number of inputs for the neural network
+    numInp = 65 # the number of inputs for the neural network
     numLabel = 1 # the number of inputs for the labels
     batchSize = 50 # the size of the batches
     discountRate = 0.99 # the discount rate for temporal difference learning
@@ -44,7 +44,7 @@ def training(opponent,games):
     saver = tf.train.Saver()
     p1wins = 0 # number of games player 1 has won overall
     p2wins = 0 # number of games player 2 has won overall
-    modelPath = "./save/Network"#WLTD1step #testNetScore or testWinLoss
+    modelPath = "./save/NetworkPlayer"#WLTD1step #testNetScore or testWinLoss
     i=1
     while i<=(games/batchSize):
         s = 1
@@ -115,13 +115,14 @@ def training(opponent,games):
                         board = Functions.MakeMove(board, nextY , nextX , player) # update the board
                         nnBoard = Functions.boardToNN(board,player)
                         if(Functions.GameOver(board)==1): # if the game is over
-                            result = sum(nnBoard)#find the winner
-                            if(result>0):
-                                winLoss[0][0] = 1
-                            elif(result==0):
-                                winLoss[0][0] = 0
-                            elif(result<0):
-                                winLoss[0][0] = -1
+                            result = Functions.BlackWhiteCount(board)#sum(nnBoard)#find the winner
+                            winLoss[0][0] = result
+#                            if(result>0):
+#                                winLoss[0][0] = 1
+#                            elif(result==0):
+#                                winLoss[0][0] = 0
+#                            elif(result<0):
+#                                winLoss[0][0] = -1
                             # final label is equal to the winner
                             gameLabelArray = np.concatenate((gameLabelArray, winLoss),axis=1)# add the label to the list of labels
                             boardArray = np.concatenate((boardArray, nnBoard),axis=1)# add the board to the list of boards
@@ -143,17 +144,18 @@ def training(opponent,games):
                             board = Functions.MakeMove(board, y , x , player)
                             # add the resulting position to the board array and the label array
                             nnBoard = Functions.boardToNN(board,player)
-                            bestPred = out.eval(feed_dict={inp: Functions.boardToNN(nnBoard,player)})
+                            bestPred = out.eval(feed_dict={inp:nnBoard})
                             winLoss[0][0] = bestPred*discountRate
                             gameLabelArray = np.concatenate((gameLabelArray, winLoss),axis=1)
                             if(Functions.GameOver(board)==1):# if the game is over
-                                result = sum(nnBoard)#find the winner
-                                if(result>0):
-                                    winLoss[0][0] = 1
-                                elif(result==0):
-                                    winLoss[0][0] = 0
-                                elif(result<0):
-                                    winLoss[0][0] = -1
+                                result = Functions.BlackWhiteCount(board)#sum(nnBoard)#find the winner
+                                winLoss[0][0] = result
+#                                if(result>0):
+#                                    winLoss[0][0] = 1
+#                                elif(result==0):
+#                                    winLoss[0][0] = 0
+#                                elif(result<0):
+#                                    winLoss[0][0] = -1
                                 # final label is equal to the winner
                                 gameLabelArray = np.concatenate((gameLabelArray, winLoss),axis=1)# add the label to the list of labels
                                 boardArray = np.concatenate((boardArray, nnBoard),axis=1)# add the board to the list of boards
@@ -202,13 +204,14 @@ def training(opponent,games):
                         board = Functions.MakeMove(board, nextY , nextX , player) # update the board
                         nnBoard = Functions.boardToNN(board,player)
                         if(Functions.GameOver(board)==1): # if the game is over
-                            result = sum(nnBoard)#find the winner
-                            if(result>0):
-                                winLoss[0][0] = 1
-                            elif(result==0):
-                                winLoss[0][0] = 0
-                            elif(result<0):
-                                winLoss[0][0] = -1
+                            result = Functions.BlackWhiteCount(board)#sum(nnBoard)#find the winner
+                            winLoss[0][0] = result
+#                            if(result>0):
+#                                winLoss[0][0] = 1
+#                            elif(result==0):
+#                                winLoss[0][0] = 0
+#                            elif(result<0):
+#                                winLoss[0][0] = -1
                             # final label is equal to the winner
                             gameLabelArray = np.concatenate((gameLabelArray, winLoss),axis=1)# add the label to the list of labels
                             boardArray = np.concatenate((boardArray, nnBoard),axis=1)# add the board to the list of boards
@@ -228,7 +231,7 @@ def training(opponent,games):
                         """
                         labelArray = np.concatenate((labelArray, concArray),axis = 1)
                         gamePlaying = 0
-                        Winner = sum(nnBoard)#Functions.BlackWhiteCount(board,player)
+                        Winner = Functions.BlackWhiteCount(board)#sum(nnBoard)
                         if(Winner > 0):
                             batchp1wins+=1
                             p1wins+=1
@@ -259,4 +262,4 @@ def training(opponent,games):
                     
     progend = time.time()
     print("elapsed",progend-progstart)   
-      
+training("Network",1000000)

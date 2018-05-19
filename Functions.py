@@ -39,7 +39,7 @@ def BoardCopy(board):
 
 # Converts the python list used to represent the board into a numPy array that can be used in tensorflow
 def boardToNN(board,player):
-    nnBoard = np.zeros((64,1),dtype=np.int32)
+    nnBoard = np.zeros((65,1),dtype=np.int32)
     
     i = 0
     while i<=7:
@@ -54,6 +54,10 @@ def boardToNN(board,player):
                 nnBoard[i*8+j][0] = -1
             j+=1
         i+=1
+    if(player == 1):
+        nnBoard[64][0] = 1
+    else:
+        nnBoard[64][0] = -1
     return nnBoard
 
 #updates the board when a player makes a move
