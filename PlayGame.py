@@ -412,19 +412,22 @@ window = tkinter.Tk()
 #frame = tkinter.Frame(window)
 #frame.pack()
 window.buttonNetwork = tkinter.Button(window,text = "Network",command = lambda:PlayGame("Network"))
-window.buttonNetwork.grid(row = 1)
+window.buttonNetwork.grid(row = 2)
 
 window.buttonHuman = tkinter.Button(window,text = "Human",command = lambda:PlayGame("Human"))
-window.buttonHuman.grid(row = 2)
+window.buttonHuman.grid(row = 1)
 
 window.buttonMinMax = tkinter.Button(window,text = "MinMax",command = lambda:PlayGame("MinMax"))
 window.buttonMinMax.grid(row = 3)
 
 window.buttonRand = tkinter.Button(window,text="Random Game",command=lambda:PlayGame("Rand"))
-window.buttonRand.grid(row = 5)
+window.buttonRand.grid(row = 4)
 
-window.buttonTrain = tkinter.Button(window,text = "Train Network",command = lambda:Training.training("Network",100000))
-window.buttonTrain.grid(row = 7)
+window.buttonTrain = tkinter.Button(window,text = "Train Against Network",command = lambda:Training.training("Network",10000))
+window.buttonTrain.grid(row = 6)
+
+window.buttonTrainRand = tkinter.Button(window,text = "Train Against Rand",command = lambda:Training.training("Rand",10000))
+window.buttonTrainRand.grid(row = 7)
 
 window.buttonEnd = tkinter.Button(window,text = "Exit",command = window.destroy)
 window.buttonEnd.grid(row = 8)

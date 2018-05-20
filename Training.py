@@ -262,4 +262,3 @@ def training(opponent,games):
                     
     progend = time.time()
     print("elapsed",progend-progstart)   
-training("Network",1000000)
