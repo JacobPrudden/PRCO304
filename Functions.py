@@ -11,20 +11,20 @@ def BoardInit():
     return board
 
 def BoardtoColour(board):
-    boardCopy=[[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,1,2,0,0,0],[0,0,0,2,1,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]]
+    boardColours=[[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]]
     a = 0
     while a<=7:
         b = 0
         while b<=7:
             if(board[a][b] == 0):
-                boardCopy[a][b] = "green"
+                boardColours[a][b] = "green"
             elif(board[a][b] == 1):
-                boardCopy[a][b] = "white"
+                boardColours[a][b] = "white"
             elif(board[a][b] == 2):
-                boardCopy[a][b] = "black"
+                boardColours[a][b] = "black"
             b+=1
         a+=1
-    return boardCopy
+    return boardColours
 #returns a copy of the board state which is not a pointer to the same data
 def BoardCopy(board):
     boardCopy=[[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,1,2,0,0,0],[0,0,0,2,1,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]]
@@ -157,17 +157,6 @@ def BlackWhiteCount(board):
             elif (board[i][j] ==2):
                 count-=1
     return count
-
-# returns the difference between the number of players 1's pieces and player 2's pieces
-def BlackWhiteDiff(board):
-    count = 0
-    for i in range (0,8):
-        for j in range (0,8):
-            if (board[i][j] == 1):
-                count+=1
-            elif (board[i][j] == 2):
-                count-=1
-    return abs(count)
 
 # return an array with all of the legal moves
 def MovesAvailable(board,player):

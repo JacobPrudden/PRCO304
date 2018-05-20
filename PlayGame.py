@@ -423,17 +423,21 @@ window.buttonMinMax.grid(row = 3)
 window.buttonRand = tkinter.Button(window,text="Random Game",command=lambda:PlayGame("Rand"))
 window.buttonRand.grid(row = 4)
 
+window.gamesLabel = tkinter.Label(window,text = "Number of training batches")
+window.gamesLabel.grid(row = 5)
+
 window.games = tkinter.Entry(window)
-window.games.grid(row = 5)
+window.games.insert(0,"10")
+window.games.grid(row = 6)
 
 window.buttonTrain = tkinter.Button(window,text = "Train Against Network",command = lambda:Training.training("Network", int(window.games.get())))
-window.buttonTrain.grid(row = 6)
+window.buttonTrain.grid(row = 7)
 
 window.buttonTrainRand = tkinter.Button(window,text = "Train Against Rand",command = lambda:Training.training("Rand", int(window.games.get())))
-window.buttonTrainRand.grid(row = 7)
+window.buttonTrainRand.grid(row = 8)
 
-window.buttonEnd = tkinter.Button(window,text = "Exit",command = window.destroy)
-window.buttonEnd.grid(row = 8)
+#window.buttonEnd = tkinter.Button(window,text = "Exit",command = window.destroy)
+#window.buttonEnd.grid(row = 9)
 UpdateBoard(player)
 
 cont = tkinter.IntVar()

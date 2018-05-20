@@ -4,7 +4,7 @@ Created on Sat Apr 28 16:13:32 2018
 
 @author: Jacob
 """
-def training(opponent,games):
+def training(opponent,batches):
     import Functions
     import MachineLearning as ml
     import tensorflow as tf
@@ -46,7 +46,7 @@ def training(opponent,games):
     p2wins = 0 # number of games player 2 has won overall
     modelPath = "./save/NetworkPlayer"#WLTD1step #testNetScore or testWinLoss
     i=1
-    while i<=(games/batchSize):
+    while i<=(batches):
         s = 1
         winLoss = np.ndarray((1,1))    
         board = Functions.BoardInit()
@@ -239,7 +239,7 @@ def training(opponent,games):
                             batchp2wins+=1
                             p2wins+=1
                 s+=1
-            print("batch: ",i," out of ", games/batchSize)
+            print("batch: ",i," out of ", batches)
             
             print("player 1 (", player1, ") wins " ,batchp1wins)
             print("player 2 (", player2, ") wins " ,batchp2wins)
@@ -263,8 +263,7 @@ def training(opponent,games):
         i+=1
                     
     progend = time.time()
-    print("total games: ",games)
+    print("total games: ",batches*batchSize)
     print("player 1 (", player1, ") wins " ,p1wins)
     print("player 2 (", player2, ") wins " ,p2wins)
     print("total time(secs) ",progend-progstart)   
-#training("Network",1000)
