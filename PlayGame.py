@@ -423,10 +423,13 @@ window.buttonMinMax.grid(row = 3)
 window.buttonRand = tkinter.Button(window,text="Random Game",command=lambda:PlayGame("Rand"))
 window.buttonRand.grid(row = 4)
 
-window.buttonTrain = tkinter.Button(window,text = "Train Against Network",command = lambda:Training.training("Network",10000))
+window.games = tkinter.Entry(window)
+window.games.grid(row = 5)
+
+window.buttonTrain = tkinter.Button(window,text = "Train Against Network",command = lambda:Training.training("Network", int(window.games.get())))
 window.buttonTrain.grid(row = 6)
 
-window.buttonTrainRand = tkinter.Button(window,text = "Train Against Rand",command = lambda:Training.training("Rand",10000))
+window.buttonTrainRand = tkinter.Button(window,text = "Train Against Rand",command = lambda:Training.training("Rand", int(window.games.get())))
 window.buttonTrainRand.grid(row = 7)
 
 window.buttonEnd = tkinter.Button(window,text = "Exit",command = window.destroy)

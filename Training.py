@@ -239,8 +239,10 @@ def training(opponent,games):
                             batchp2wins+=1
                             p2wins+=1
                 s+=1
-            print("player 1 wins",batchp1wins,p1wins)
-            print("player 2 wins",batchp2wins,p2wins)
+            print("batch: ",i," out of ", games/batchSize)
+            
+            print("player 1 (", player1, ") wins " ,batchp1wins)
+            print("player 2 (", player2, ") wins " ,batchp2wins)
             
             """
             the following code flips the training data since a position where player 2 is guaranteed to win 
@@ -256,9 +258,13 @@ def training(opponent,games):
             print(boardCost)
             savePath = saver.save(sess, modelPath)# saves the updated network
             end = time.time()
-            print("elapsed",end-start)
+            print("batch time(secs) ",end-start)
         
         i+=1
                     
     progend = time.time()
-    print("elapsed",progend-progstart)   
+    print("total games: ",games)
+    print("player 1 (", player1, ") wins " ,p1wins)
+    print("player 2 (", player2, ") wins " ,p2wins)
+    print("total time(secs) ",progend-progstart)   
+#training("Network",1000)
