@@ -9,7 +9,7 @@ def training(opponent,batches):
     import MachineLearning as ml
     import tensorflow as tf
     import numpy as np
-    from random import randint
+    from random import random,randint
     from tensorflow.python.framework import ops
     import time
     
@@ -23,8 +23,8 @@ def training(opponent,batches):
     # Create Placeholders for input and label
     inp, label = ml.placeholders(numInp, numLabel)
     
-    # Initialize parameters
-    parameters = ml.initializeParameters()
+    # Initialise parameters
+    parameters = ml.initialiseParameters()
     
     #make the nerual network
     out = ml.network(inp, parameters)
@@ -37,11 +37,12 @@ def training(opponent,batches):
     
     player1 = "Network"
     player2 = opponent
-    # Initialize all the variables
+    # Initialise all the variables
     init = tf.global_variables_initializer()
     
     progstart = time.time()
     saver = tf.train.Saver()
+    expRate = 0.2
     p1wins = 0 # number of games player 1 has won overall
     p2wins = 0 # number of games player 2 has won overall
     modelPath = "./save/NetworkPlayer"#WLTD1step #testNetScore or testWinLoss
@@ -81,7 +82,7 @@ def training(opponent,batches):
                         movesAvailable = Functions.MovesAvailable(board, player) # all available moves
                         bestPred = 0
                         j = 0
-                        if(randint(1,10)<9):# most of the time the network will play the move with the highest output
+                        if(random()>expRate):# most of the time the network will play the move with the highest output
                             while (j <= len(movesAvailable) - 1 and movesAvailable):# for each ove in movesAvailable
                                 moveTest = movesAvailable[j]    
                                 x = int(moveTest[1])
@@ -170,7 +171,7 @@ def training(opponent,batches):
                         movesAvailable = Functions.MovesAvailable(board, player) # all available moves
                         bestPred = 0
                         j = 0
-                        if(randint(1,10)<9):# most of the time the network will play the move with the highest output
+                        if(random()>expRate):# most of the time the network will play the move with the highest output
                             while (j <= len(movesAvailable) - 1 and movesAvailable):# for each ove in movesAvailable
                                 moveTest = movesAvailable[j]    
                                 x = int(moveTest[1])
@@ -256,7 +257,7 @@ def training(opponent,batches):
             #trains the neural network
             _ , boardCost = sess.run([optimizer, cost], feed_dict={inp: boardArray, label: labelArray})
             print(boardCost)
-            savePath = saver.save(sess, modelPath)# saves the updated network
+            #savePath = saver.save(sess, modelPath)# saves the updated network
             end = time.time()
             print("batch time(secs) ",end-start)
         

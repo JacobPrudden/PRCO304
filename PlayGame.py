@@ -324,14 +324,14 @@ def PlayGame(opponent):
         # Create Placeholders for input and label
         inp, label = ml.placeholders(numInp, numLabel)
         
-        # Initialize parameters
-        parameters = ml.initializeParameters()
+        # Initialise parameters
+        parameters = ml.initialiseParameters()
         
         #make the nerual network
         out = ml.network(inp, parameters)
         
         modelPath = "./save/Network"
-        # Initialize all the variables
+        # Initialise all the variables
         init = tf.global_variables_initializer()
         
         saver = tf.train.Saver()
