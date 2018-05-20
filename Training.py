@@ -9,11 +9,11 @@ def training(opponent,batches):
     import MachineLearning as ml
     import tensorflow as tf
     import numpy as np
-    from random import random,randint
-    from tensorflow.python.framework import ops
     import time
+    from random import random,randint
+#    from tensorflow import ops
     
-    ops.reset_default_graph() 
+    tf.reset_default_graph() 
     lr = 0.0001 # the learning rate
     numInp = 65 # the number of inputs for the neural network
     numLabel = 1 # the number of inputs for the labels
@@ -30,10 +30,10 @@ def training(opponent,batches):
     out = ml.network(inp, parameters)
     
     #cost function for use in training
-    cost = ml.compute_cost(out, label)
+    cost = ml.computeCost(out, label)
     
     #training function
-    optimizer = tf.train.AdamOptimizer(learning_rate = lr).minimize(cost)
+    optimiser = tf.train.AdamOptimizer(learning_rate = lr).minimize(cost)
     
     player1 = "Network"
     player2 = opponent
@@ -61,15 +61,13 @@ def training(opponent,batches):
             #loads the network in or initialises a new network
             try:
                 saver.restore(sess, modelPath)
-                #print("Model restored from file: %s" % modelPath)
             except:
-                #sessctd = False
-                print("Initializing")
+                print("Initialising")
             start = time.time()
             while s <= batchSize:
                 movesAvailable = 1
                 gamePlaying = 1
-                player = randint(1,2) # returns either a 1 or a 2
+                player = randint(1,2) # returns either a 1 or a 2 which determines the starting player
                 board = Functions.BoardInit()
                 nnBoard = Functions.boardToNN(board,player)
                 boardArray = np.concatenate((boardArray, nnBoard),axis=1)
@@ -255,7 +253,7 @@ def training(opponent,batches):
             boardArray = np.concatenate((boardArray,boardArrayOpp),axis = 1)
             
             #trains the neural network
-            _ , boardCost = sess.run([optimizer, cost], feed_dict={inp: boardArray, label: labelArray})
+            _ , boardCost = sess.run([optimiser, cost], feed_dict={inp: boardArray, label: labelArray})
             print(boardCost)
             #savePath = saver.save(sess, modelPath)# saves the updated network
             end = time.time()

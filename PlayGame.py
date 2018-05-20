@@ -330,7 +330,7 @@ def PlayGame(opponent):
         #make the nerual network
         out = ml.network(inp, parameters)
         
-        modelPath = "./save/Network"
+        modelPath = "./save/NetworkPlayer"
         # Initialise all the variables
         init = tf.global_variables_initializer()
         
@@ -343,7 +343,7 @@ def PlayGame(opponent):
                 #print("Model restored from file: %s" % modelPath)
             except:
                 #sessctd = False
-                print("Initializing")
+                print("Initialiing")
             while Functions.GameOver(board)==0:
                 
                 board = Functions.BoardInit()

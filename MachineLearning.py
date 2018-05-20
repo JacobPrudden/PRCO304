@@ -1,4 +1,3 @@
-#import numpy as np
 import tensorflow as tf
 
 def placeholders(numInp, numLabel):
@@ -13,7 +12,7 @@ def placeholders(numInp, numLabel):
 
 def initialiseParameters():
     
-    tf.set_random_seed(1)
+    tf.set_random_seed(1) # to ensure repeatable results
     nodes = 200
     Weight1 = tf.get_variable("Weight1", [nodes,65], initializer = tf.contrib.layers.xavier_initializer(seed = 1))
     bias1 = tf.get_variable("bias1", [nodes,1], initializer = tf.zeros_initializer())
@@ -53,21 +52,18 @@ def network(inp, parameters):
     Weight4 = parameters['Weight4']
     bias4 = parameters['bias4']
     
-    hiddenOut1 = tf.add(tf.matmul(Weight1, inp), bias1)    
-    #rel1 = tf.sigmoid(hiddenOut1)
+    hiddenOut1 = tf.add(tf.matmul(Weight1, inp), bias1)
     rel1 = tf.nn.relu(hiddenOut1)                            
-    hiddenOut2 = tf.add(tf.matmul(Weight2, rel1), bias2)                
-    #rel2 = tf.sigmoid(hiddenOut2) 
+    hiddenOut2 = tf.add(tf.matmul(Weight2, rel1), bias2)     
     rel2 = tf.nn.relu(hiddenOut2)
-    hiddenOut3 = tf.add(tf.matmul(Weight3, rel2), bias3)                
-    #rel3 = tf.sigmoid(hiddenOut3)  
+    hiddenOut3 = tf.add(tf.matmul(Weight3, rel2), bias3) 
     rel3 = tf.nn.relu(hiddenOut3)      
     out = tf.add(tf.matmul(Weight4, rel3), bias4)    
     
     return out
 
 
-def compute_cost(out, label):
+def computeCost(out, label):
     
     cost = tf.reduce_mean(tf.squared_difference(out, label))
     
